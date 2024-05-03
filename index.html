@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="images/favicon.png">
+    <title>Mind App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <script src="https://stuk.github.io/jszip/dist/jszip.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <a href="#" class="logo"> <i class="fas fa-heartbeat"></i> mind</a>
+        <nav class="navbar">
+            <a href="#home">logbook</a>
+            <a href="main.html">about us</a>
+            <a href="#" id="pin-account-link">pin and account</a>
+        </nav>
+        <div id="menu-btn" class="fas fa-bars"></div>
+    </header>
+
+    <div class="loader"></div>
+
+   
+    <!--Account Management -->
+    <div id="popup-container" class="popup-container">
+        <div class="popup-card">
+            <div class="account" id="account">
+                <h1 class="heading">Manage <span>pin and account</span></h1>
+                <div class="row">
+                    <div class="image">
+                        <img src="images/phone.png" alt="">
+                    </div>
+
+                    <div class="content">
+                        <div id="popup-message" class="popup-message"></div>
+                        <div class="account-options">
+                            <div class="register-form">
+                                <h1 class="heading">Register</h1>
+                                <form id="register-form">
+                                    
+                                    <input type="email" id="register-email" placeholder="Your email" class="input-field">
+                                    <input type="password" id="register-password" placeholder="Password" class="input-field">
+                                    <button type="submit" class="btn" id="register-button">Register</button>
+                                </form>
+                            </div>
+                            <div class="divider">OR</div>
+                            <div class="forget-form">
+                                <h1 class="heading">Forgot Pin?</h1>
+                                <form id="forgot-pin-form">
+                                    <input type="email" id="forgot-pin-email" placeholder="Your email" class="input-field" >
+                                  
+                                    <button type="submit" class="btn" id="forgot-pin-button">Submit</button>
+                                </form>
+                            </div>
+                            <div class="divider">OR</div>
+                            <div class="login-form">
+                                <h1 class="heading">Sign in And Out</h1>
+                                <form id="signIn-form">
+                                    <input type="password" id="signIn-pin" placeholder="Pin" class="input-field">
+                                    <button type="submit" class="btn" id="signIn-button">Sign In</button>
+                                    <button type="submit" class="btn" id="signOut-button">Sign Out</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="close" id="close-popup">&times;</span>
+        </div>
+    </div>
+
+    <!--Main Page -->
+    <section class="home" id="home">
+        <div id="popup-message2" class="popup-message"></div>
+        <div class="image">
+            <img src="images/home.png" alt="">
+        </div>
+        <div class="content">
+            <h3>Stay safe, stay healthy</h3>
+            <p>Navigate Your Emotions with MindWeb: Your Feelings, Your Way!</p>
+            <a href="#mainIcons" class="btn">Start Here <span class="fas fa-chevron-down"></span></a>
+        </div>
+        <div class="content" id="mainIcons">
+            <div class="main-icons">
+                <a href="#" class="selectable-icon"><i class="fas fa-smile fa-7x"></i><p>Happy</p></a>
+                <a href="#" class="selectable-icon"><i class="fas fa-frown fa-7x"></i><p>Sad</p></a>
+                <a href="#" class="selectable-icon"><i class="fas fa-laugh fa-7x"></i><p>excited</p></a>
+                <a href="#" class="selectable-icon"><i class="fas fa-sad-tear fa-7x"></i><p>Depressed</p></a>
+            </div>
+            <div class="main-icons">
+                <a class="selectable-icon"><i class="fas fa-grin-squint fa-7x"></i><p>Nervous</p></a>
+                <a class="selectable-icon"><i class="fas fa-angry fa-7x"></i><p>Angry</p></a>
+                <a class="selectable-icon"><i class="fas fa-meh fa-7x"></i><p>Bored</p></a>
+                <a class="selectable-icon"><i class="fas fa-surprise fa-7x"></i><p>Shocked</p></a>
+            </div>
+            <div class="main-icons">
+                <a class="selectable-icon"><i class="fas fa-grin-hearts fa-7x"></i><p>in love</p></a>
+                <a class="selectable-icon"><i class="fas fa-dizzy fa-7x"></i><p>Exhausted</p></a>
+                <a class="selectable-icon"><i class="fas fa-grin-beam-sweat fa-7x"></i><p>worried</p></a>
+                <a class="selectable-icon"><i class="fas fa-grin-tongue fa-7x"></i><p>quirky</p></a>
+            </div>
+        </div>
+        <form id="entry-form">
+            <h3>Save, Share & Show</h3>
+            <textarea id="description-input" placeholder="Description" class="box"></textarea>
+            <input id="pin-input" type="number" placeholder="PIN" class="box">
+            <input type="submit" value="Save" class="btn">
+            <button id="shareEntries" class="btn">Share Entries</button>
+            <input type="text" id="shareableLink" style="display:none;">
+            <a href="#entry-start"><input type="button" value="Show entries" class="btn"></a>
+            
+        </form>
+    </section>
+
+    <!--Entries -->
+        <section class="entry-container" id="entry-start">
+            <div class="title-container">
+                <h1>Saved Entries</h1>
+            </div>
+            <div class="pagination">
+                <button id="prevPage"><img src="images/arrow.png" alt="arrowImage">Prev</button>
+                <div id="pageNumbers" class="page-numbers"></div>
+                <button id="nextPage">Next<img src="images/arrow.png" alt="arrowImage"></button>
+            </div>
+            
+            <div class="entries-container" id="entriesShare">
+                <!-- Entries will be displayed here -->
+            </div>
+        </section>
+
+    <!--Footer -->
+        <section class="footer">
+            <div class="box-container">
+                <div class="box">
+                    <h3>quick links</h3>
+                    <a href="#home"> <i class="fas fa-chevron-right"></i> logbook </a>
+                    <a href="main.html"> <i class="fas fa-chevron-right"></i> about us </a>
+                    <a href="main.html#services"> <i class="fas fa-chevron-right"></i> services </a>
+                    <a href="main.html#review"> <i class="fas fa-chevron-right"></i> review </a>
+                    <a href="main.html#blogs"> <i class="fas fa-chevron-right"></i> blogs </a>
+                </div>
+        
+                <div class="box">
+                    <h3>Our services</h3>
+                    <a href="#home"> <i class="fas fa-chevron-right"></i> Track </a>
+                    <a href="#home"> <i class="fas fa-chevron-right"></i> Log </a>
+                    <a href="#home"> <i class="fas fa-chevron-right"></i> Share </a>
+                </div>
+        
+                <div class="box">
+                    <h3>contact info</h3>
+                    <a href="#"> <i class="fas fa-phone"></i>+4412345678901</a>
+                    <a href="#"> <i class="fas fa-envelope"></i>email@gmail.com</a>
+                    <a href="#"> <i class="fas fa-map-marker-alt"></i>Brighton</a>
+                </div>
+                <div class="box">
+                    <h3>follow us</h3>
+                    <a href="#"> <i class="fab fa-facebook-f"></i>facebook</a>
+                    <a href="#"> <i class="fab fa-twitter"></i>twitter</a>
+                    <a href="#"> <i class="fab fa-instagram"></i>Instagram</a>
+                    <a href="#"> <i class="fab fa-linkedin"></i>linkedIn</a>
+                    <a href="#"> <i class="fab fa-pinterest"></i>pinterest</a>
+                </div>
+            </div>
+            <div class="credit"> created by <span>Sadika Rahman</span> | all rights reserved </div>
+        </section>
+
+<script>
+
+    // Function to generate a random key
+const generateRandomKey = () => {
+    return CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Hex);
+};
+
+// Function to display messages in the pop-up
+const displayPopupMessage = (message, isSuccess = true) => {
+    const popupMessage = document.getElementById('popup-message');
+    popupMessage.textContent = message;
+    popupMessage.className = isSuccess ? 'popup-message success' : 'popup-message error';
+    popupMessage.style.display = 'block';
+    
+    // Scroll to the popup message
+    popupMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Hide the message after 3 seconds
+    setTimeout(() => {
+        popupMessage.style.display = 'none';
+    }, 3000);
+};
+
+// Function to handle registration
+document.getElementById('register-button').addEventListener('click', function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+
+    
+    if (!email || !password) {
+        displayPopupMessage('Please fill in all fields.', false);
+        return;
+    }
+
+    // Generate a random key
+    const key = generateRandomKey();
+
+    // Stores registration details in local storage, including the key
+    localStorage.setItem('email', email);
+    localStorage.setItem('key', key);  // Stores the key
+
+    // Encrypt and store the password using CryptoJS
+    const encryptedPassword = CryptoJS.AES.encrypt(password, key).toString();
+    localStorage.setItem('password', encryptedPassword);
+
+    // Generate and store a PIN
+    const pin = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+    const encryptedPin = CryptoJS.AES.encrypt(pin, key).toString();
+    localStorage.setItem('pin', encryptedPin);
+
+    displayPopupMessage('Registration successful. Your PIN is: ' + pin, true);
+
+    // Clear the registration form fields
+    document.getElementById('register-email').value = '';
+    document.getElementById('register-password').value = '';
+});
+
+
+// Function to handle pin retrieval
+
+document.getElementById('forgot-pin-button').addEventListener('click', function (e) {
+    e.preventDefault();
+    const email = document.getElementById('forgot-pin-email').value;
+
+    // Retrieve stored registration details from local storage
+    const storedEmail = localStorage.getItem('email');
+    const storedKey = localStorage.getItem('key'); // Retrieve the key used during registration
+
+    // Add a check for the existence of storedKey
+    if (storedKey) {
+        // Check if the provided email matches the stored email
+        if (email === storedEmail) {
+            // Retrieve the PIN from local storage and decrypt it
+            const storedEncryptedPIN = localStorage.getItem('pin');
+            const storedPIN = CryptoJS.AES.decrypt(storedEncryptedPIN, storedKey).toString(CryptoJS.enc.Utf8);
+
+            if (storedPIN) {
+                displayPopupMessage('Your PIN is: ' + storedPIN, true);
+            } else {
+                displayPopupMessage('PIN not found. Please register first.', false);
+            }
+        } else {
+            // Handle incorrect email
+            displayPopupMessage('Incorrect email. Please provide the email used during registration.', false);
+        }
+    } else {
+        // Handle the case where there is no stored key (user hasn't registered)
+        displayPopupMessage('You have not registered yet. Please register first.', false);
+    }
+
+    // Clear the forgot pin form field
+    document.getElementById('forgot-pin-email').value = '';
+});
+
+
+// Function to handle sign-in with PIN
+document.getElementById('signIn-button').addEventListener('click', function (e) {
+    e.preventDefault();
+    const enteredPin = document.getElementById('signIn-pin').value;
+
+    // Retrieve the stored and encrypted PIN from local storage
+    const storedEncryptedPIN = localStorage.getItem('pin');
+    const storedKey = localStorage.getItem('key'); // Retrieve the key used during registration
+
+    // Add a check for the existence of storedKey
+    if (storedKey) {
+        const storedPIN = CryptoJS.AES.decrypt(storedEncryptedPIN, storedKey).toString(CryptoJS.enc.Utf8);
+
+        if (enteredPin === storedPIN) {
+            displayPopupMessage('Sign-in successful. Welcome!', true);
+
+            // Set the flag indicating that the user has signed in
+            localStorage.setItem('hasSignedIn', true);
+
+            document.getElementById("close-popup").style.display = "none";
+            // Reload the page after 1 second
+            setTimeout(function () {
+
+                location.reload();
+            }, 1000);
+
+        } else {
+
+            displayPopupMessage('Incorrect PIN. Please try again.', false);
+        }
+
+        // Clear the sign-in form fields
+        document.getElementById('signIn-pin').value = '';
+    } else {
+        // Handle the case where there is no stored key (user hasn't registered)
+        displayPopupMessage('You have not registered yet. Please register first.', false);
+    }
+});
+
+
+
+
+// Function to handle sign-out
+document.getElementById('signOut-button').addEventListener('click', function (e) {
+    e.preventDefault();
+
+    // Set the flag indicating that the user has signed out
+    localStorage.setItem('hasSignedIn', false);
+    displayPopupMessage('You have signed out.', false);
+    
+
+    // Set a timeout to reload the page
+    setTimeout(function () {
+        // Refresh the page
+        location.reload();
+    }, 1200); // 1200 milliseconds = 1.2 seconds
+    
+    // Show the pop-up card on sign out
+    document.getElementById("popup-container").style.display = "block";
+
+    // Enable or disable the close button based on the user's sign-in status
+    updateCloseButton();
+
+    // Set the flag indicating that the pop-up has been displayed
+    localStorage.setItem('popupDisplayed', true);
+    
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Check if the pop-up has been displayed before
+    const hasPopupBeenDisplayed = localStorage.getItem('popupDisplayed');
+    const hasSignedIn = localStorage.getItem('hasSignedIn') === 'true';
+
+    if (!hasPopupBeenDisplayed || !hasSignedIn) {
+        // Show the pop-up card
+        document.getElementById("popup-container").style.display = "block";
+
+        // Enable or disable the close button based on the user's sign-in status
+        updateCloseButton();
+
+        // Set the flag indicating that the pop-up has been displayed
+        localStorage.setItem('popupDisplayed', true);
+    }
+
+    // Close the pop-up card when the close button is clicked
+    document.getElementById("close-popup").addEventListener("click", function () {
+        // Only allow closing if the pop-up has been displayed before
+        if (hasPopupBeenDisplayed) {
+            document.getElementById("popup-container").style.display = "none";
+        }
+    });
+
+    document.getElementById("pin-account-link").addEventListener("click", function (e) {
+    e.preventDefault();
+
+    // Check if the user is signed in
+    const hasSignedIn = localStorage.getItem('hasSignedIn') === 'true';
+
+    if (hasSignedIn) {
+        // User is signed in, allow the action
+        document.getElementById("popup-container").style.display = "block";
+
+        // Ensure the close button is displayed when the pin and account link is clicked
+        document.getElementById("close-popup").style.display = "block";
+    } else {
+        // User is not signed in, handle accordingly
+    
+        displayPopupMessage('User is not signed in. Please sign in.', false);
+    }
+    });
+});
+
+// Function to enable or disable the close button based on the sign-in status
+function updateCloseButton() {
+    const hasSignedIn = localStorage.getItem('hasSignedIn') === 'true';
+    const closePopupButton = document.getElementById("close-popup");
+
+    if (hasSignedIn) {
+        closePopupButton.style.display = "block";
+    } else {
+        closePopupButton.style.display = "none";
+    }
+}
+
+</script>
+
+<script> 
+    // Wait for the entire page to finish loading
+    window.addEventListener("load", () => {
+     // Find the loader element in the document
+     const loader = document.querySelector(".loader");
+    
+      // Check if the loader element exists and is a direct child of the document body
+      if (loader && loader.parentNode === document.body) {
+        // Add a class to hide the loader using CSS transitions
+        loader.classList.add("loader--hidden");
+    
+        // Add an event listener for the 'transitionend' event to detect when the transition is complete
+        loader.addEventListener("transitionend", () => {
+          // Set a timeout to delay removing the loader element after the transition
+          setTimeout(() => {
+            // Remove the loader element from the document
+            loader.remove();
+          }, 600); // Adjust the timeout duration (in milliseconds) 
+        });
+      }
+    });
+  </script>
+  
+    <script src="js/main.js"></script>
+    <script src="js/script.js"></script>
+    
+</body>
+</html>
